@@ -1,6 +1,10 @@
 using API.Utils;
+using Carter;
 using Domain.Databases;
+using Domain.Repositories;
+using Domain.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Service.Users;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +17,10 @@ builder.Services.AddDbContext<AppDbContext>(option =>
 {
     option.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
 });
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddCarter();
 
 builder.Services.AddOpenApi();
 
@@ -61,6 +69,7 @@ app.MapGet(
 
 await UpdateDatabase.Execute(app);
 
+app.MapCarter();
 app.Run();
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
