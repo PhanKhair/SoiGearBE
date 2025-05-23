@@ -1,0 +1,27 @@
+version: "3"
+
+tasks:
+  watch:
+    dir: Api
+    cmds:
+      - dotnet watch
+  run:
+    dir: Api
+    cmds:
+      - dotnet run
+  build:
+    dir: Api
+    cmds:
+      - dotnet build
+  reset-db:
+    dir: Domain
+    cmds:
+      - dotnet ef database drop --startup-project ../Api
+      - dotnet ef migrations remove --startup-project ../Api
+      - dotnet ef migrations add SoiGearMigrations --startup-project ../Api
+      - dotnet ef database update --startup-project ../Api
+  add-db:
+    dir: Domain
+    cmds:
+      - dotnet ef migrations add SoiGearMigrations --startup-project ../Api
+      - dotnet ef database update --startup-project ../Api
