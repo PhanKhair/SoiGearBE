@@ -19,5 +19,4 @@ public class User : BaseEntity
     // Navigational
     [ForeignKey(nameof(RoleId))]
     public Role? Role { get; set; }
-    public ICollection<UserKeyboard> UserKeyboards { get; set; } = [];
 }

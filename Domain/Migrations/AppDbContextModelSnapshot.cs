@@ -22,10 +22,38 @@ namespace Domain.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Domain.Entities.Category", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("Domain.Entities.Keyboard", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CategoryId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTimeOffset>("CreatedAt")
@@ -49,10 +77,15 @@ namespace Domain.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
 
+                    b.Property<bool>("Status")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Keyboards");
                 });
@@ -76,6 +109,64 @@ namespace Domain.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Switch", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<float>("BottomOut")
+                        .HasColumnType("real");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("Discount")
+                        .HasColumnType("numeric");
+
+                    b.Property<string[]>("Images")
+                        .IsRequired()
+                        .HasColumnType("text[]");
+
+                    b.Property<decimal>("MountingPin")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<float>("PreTravel")
+                        .HasColumnType("real");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("SwitchType")
+                        .HasColumnType("integer");
+
+                    b.Property<float>("TotalTravel")
+                        .HasColumnType("real");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Switches");
                 });
 
             modelBuilder.Entity("Domain.Entities.User", b =>
@@ -122,31 +213,26 @@ namespace Domain.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Domain.Entities.UserKeyboard", b =>
+            modelBuilder.Entity("Domain.Entities.Keyboard", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                    b.HasOne("Domain.Entities.Category", "Category")
+                        .WithMany("Keyboards")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.Navigation("Category");
+                });
 
-                    b.Property<Guid>("KeyboardId")
-                        .HasColumnType("uuid");
+            modelBuilder.Entity("Domain.Entities.Switch", b =>
+                {
+                    b.HasOne("Domain.Entities.Category", "Category")
+                        .WithMany("Switches")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<DateTimeOffset>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("KeyboardId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserKeyboards");
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Domain.Entities.User", b =>
@@ -160,38 +246,16 @@ namespace Domain.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("Domain.Entities.UserKeyboard", b =>
+            modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
-                    b.HasOne("Domain.Entities.Keyboard", "Keyboard")
-                        .WithMany("UserKeyboards")
-                        .HasForeignKey("KeyboardId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Keyboards");
 
-                    b.HasOne("Domain.Entities.User", "User")
-                        .WithMany("UserKeyboards")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Keyboard");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Keyboard", b =>
-                {
-                    b.Navigation("UserKeyboards");
+                    b.Navigation("Switches");
                 });
 
             modelBuilder.Entity("Domain.Entities.Role", b =>
                 {
                     b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("Domain.Entities.User", b =>
-                {
-                    b.Navigation("UserKeyboards");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,5 +1,6 @@
 using Domain.Databases;
 using Domain.Entities;
+using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Utils;
@@ -20,6 +21,7 @@ public class UpdateDatabase
         //check if there is no data in db then update db
         if (!(await context.Users.AnyAsync()))
         {
+            // ROLE
             await context.Roles.AddRangeAsync(
                 new Role()
                 {
@@ -33,6 +35,23 @@ public class UpdateDatabase
                 }
             );
 
+            // CATEGORY
+            await context.Categories.AddRangeAsync(
+                new Category()
+                {
+                    Id = Guid.Parse("e6139dda-b007-49aa-866a-8e681b487d69"),
+                    Name = "GroupBuy",
+                    Description = "Hàng order",
+                },
+                new Category()
+                {
+                    Id = Guid.Parse("0b899b7a-fa7c-4466-883b-657ebd1f919e"),
+                    Name = "Store",
+                    Description = "Hàng có sẵn",
+                }
+            );
+
+            // USER
             await context.Users.AddRangeAsync(
                 new User()
                 {
@@ -54,22 +73,61 @@ public class UpdateDatabase
                 }
             );
 
+            // KEYBOARD
             await context.Keyboards.AddRangeAsync(
                 new Keyboard()
                 {
                     Id = Guid.Parse("5106e76c-b588-405a-8019-14007dffbbda"),
+                    CategoryId = Guid.Parse("e6139dda-b007-49aa-866a-8e681b487d69"),
                     Name = "Dune65",
+                    Description = "Phím nhôm",
+                    Price = 9850000,
+                    Discount = 5,
+                    Status = true,
+                },
+                new Keyboard()
+                {
+                    Id = Guid.Parse("4a7f178c-01f2-4a8c-b136-84759ffedc94"),
+                    CategoryId = Guid.Parse("0b899b7a-fa7c-4466-883b-657ebd1f919e"),
+                    Name = "F1 TKL",
                     Description = "Phím đẹp vãi chưởng",
-                    Price = 500,
-                    Discount = 12,
+                    Price = 12400405,
+                    Discount = 7,
+                    Status = true,
                 }
             );
 
-            await context.UserKeyboards.AddRangeAsync(
-                new UserKeyboard()
+            // SWITCH
+            await context.Switches.AddRangeAsync(
+                new Switch()
                 {
-                    UserId = Guid.Parse("b6f2f10c-0400-411f-a0cd-0312bd778912"),
-                    KeyboardId = Guid.Parse("5106e76c-b588-405a-8019-14007dffbbda"),
+                    Id = Guid.Parse("79ec005e-9ad3-45d5-b24b-12928a0a2d8e"),
+                    CategoryId = Guid.Parse("0b899b7a-fa7c-4466-883b-657ebd1f919e"),
+                    Name = "HMX Xinhai",
+                    Description = "Switch âm đanh, nổ to của nhà HMX",
+                    SwitchType = SwitchType.Linear,
+                    PreTravel = 2.0f,
+                    TotalTravel = 3.4f,
+                    BottomOut = 45f,
+                    MountingPin = 5,
+                    Price = 4000,
+                    Discount = 5,
+                    Status = true,
+                },
+                new Switch()
+                {
+                    Id = Guid.Parse("ff1d708b-eb56-45fd-b730-c991320f046e"),
+                    CategoryId = Guid.Parse("e6139dda-b007-49aa-866a-8e681b487d69"),
+                    Name = "Owlab Neon",
+                    Description = "Batch mới nhất đã sửa lỗi dọng dầu lube gây tịt âm",
+                    SwitchType = SwitchType.Linear,
+                    PreTravel = 2.1f,
+                    TotalTravel = 3.5f,
+                    BottomOut = 62f,
+                    MountingPin = 5,
+                    Price = 11000,
+                    Discount = 5,
+                    Status = true,
                 }
             );
 

@@ -5,7 +5,7 @@ namespace Domain.Responses.Users;
 
 public class GetUsersResponse
 {
-    public Guid id { get; set; }
+    public Guid Id { get; set; }
     public string Role { get; set; } = "";
     public string Name { get; set; } = "";
     public Gender? Gender { get; set; }
@@ -20,7 +20,7 @@ public class GetUsersResponse
     {
         return new()
         {
-            id = user.Id,
+            Id = user.Id,
             Role = user.Role?.Name ?? "",
             Name = user.Name,
             Gender = user.Gender,

@@ -28,7 +28,7 @@ public class UserService(IUserRepository userRepository) : IUserService
         {
             return Result.Error("Không tìm thấy người dùng");
         }
-        return Result.Success(value: users, "Lấy dùng người dùng thành công");
+        return Result.Success(value: users, "Lấy danh sách người dùng thành công");
     }
 
     public async Task<Result<GetUsersResponse>> GetUserById(Guid userId)
