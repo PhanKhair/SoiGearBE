@@ -20,6 +20,11 @@ tasks:
       - dotnet ef migrations remove --startup-project ../Api
       - dotnet ef migrations add SoiGearMigrations --startup-project ../Api
       - dotnet ef database update --startup-project ../Api
+  reset-mg:
+    dir: Domain
+    cmds:
+      - dotnet ef migrations remove --startup-project ../Api
+      - dotnet ef migrations add SoiGearMigrations --startup-project ../Api
   add-db:
     dir: Domain
     cmds:

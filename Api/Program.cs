@@ -4,6 +4,9 @@ using Domain.Databases;
 using Domain.Repositories;
 using Domain.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Service.Categories;
+using Service.Keyboards;
+using Service.Switches;
 using Service.Users;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +23,16 @@ builder.Services.AddDbContext<AppDbContext>(option =>
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddScoped<IKeyboardRepository, KeyboardRepository>();
+builder.Services.AddScoped<IKeyboardService, KeyboardService>();
+
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+
+builder.Services.AddScoped<ISwitchRepository, SwitchRepository>();
+builder.Services.AddScoped<ISwitchService, SwitchService>();
+
 builder.Services.AddCarter();
 
 builder.Services.AddOpenApi();

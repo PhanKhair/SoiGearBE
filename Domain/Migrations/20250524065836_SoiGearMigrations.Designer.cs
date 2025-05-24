@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Domain.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250523154751_SoiGearMigrations")]
+    [Migration("20250524065836_SoiGearMigrations")]
     partial class SoiGearMigrations
     {
         /// <inheritdoc />

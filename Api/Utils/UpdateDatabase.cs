@@ -120,7 +120,7 @@ public class UpdateDatabase
                     CategoryId = Guid.Parse("e6139dda-b007-49aa-866a-8e681b487d69"),
                     Name = "Owlab Neon",
                     Description = "Batch mới nhất đã sửa lỗi dọng dầu lube gây tịt âm",
-                    SwitchType = SwitchType.Linear,
+                    SwitchType = SwitchType.Silent,
                     PreTravel = 2.1f,
                     TotalTravel = 3.5f,
                     BottomOut = 62f,
