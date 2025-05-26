@@ -53,4 +53,26 @@ public class KeyboardRepository(AppDbContext context) : IKeyboardRepository
         // giờ keyboardEntity là User? nên có thể kiểm tra null và map sang DTO
         return keyboardEntity is null ? null : GetKeyboardsResponse.FromEntity(keyboardEntity);
     }
+
+    public async Task Add(Keyboard keyboard)
+    {
+        await context.Keyboards.AddAsync(keyboard);
+    }
+
+    public async Task<bool> Remove(Guid keyboardId)
+    {
+        Keyboard? checking = await context.Keyboards.FirstOrDefaultAsync(k => k.Id == keyboardId);
+
+        if (checking is null)
+        {
+            return false;
+        }
+        context.Keyboards.Remove(checking);
+        return true;
+    }
+
+    public async Task<Keyboard?> GetRawKeyboardById(Guid keyboardId)
+    {
+        return await context.Keyboards.FirstOrDefaultAsync(k => k.Id == keyboardId);
+    }
 }

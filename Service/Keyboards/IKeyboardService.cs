@@ -14,4 +14,24 @@ public interface IKeyboardService
     );
 
     Task<Result<GetKeyboardsResponse>> GetKeyboardById(Guid keyboardId);
+    Task<Result<CreateKeyboardResponse>> AddKeyboard(
+        Guid categoryId,
+        string name,
+        string description,
+        decimal price,
+        string[] images,
+        decimal? discount = 0
+    );
+
+    Task<Result<CreateKeyboardResponse>> UpdateKeyboard(
+        Guid id,
+        Guid categoryId,
+        string name,
+        string description,
+        decimal price,
+        string[] images,
+        decimal? discount = 0
+    );
+
+    Task<Result> DeleteKeyboard(Guid keyboardId);
 }

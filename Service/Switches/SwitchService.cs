@@ -4,7 +4,7 @@ using Domain.Responses.Switches;
 
 namespace Service.Switches;
 
-public class SwitchService(ISwitchRepository switchRepository) : ISwitchService
+public class SwitchService(IUnitOfWork uow) : ISwitchService
 {
     public async Task<Result<IEnumerable<GetSwitchesResponse>>> GetSwitches(
         int pageNumber = 1,
@@ -14,7 +14,7 @@ public class SwitchService(ISwitchRepository switchRepository) : ISwitchService
         bool status = true
     )
     {
-        IEnumerable<GetSwitchesResponse> switches = await switchRepository.GetSwitches(
+        IEnumerable<GetSwitchesResponse> switches = await uow.SwitchRepository.GetSwitches(
             pageNumber,
             pageSize,
             search,
@@ -24,20 +24,20 @@ public class SwitchService(ISwitchRepository switchRepository) : ISwitchService
 
         if (!switches.Any())
         {
-            return Result.Error("Không tìm thấy công tác");
+            return Result.Error("Không tìm thấy công tắc");
         }
-        return Result.Success(value: switches, "Lấy danh sách công tác thành công");
+        return Result.Success(value: switches, "Lấy danh sách công tắc thành công");
     }
 
     public async Task<Result<GetSwitchesResponse>> GetSwitchById(Guid switchId)
     {
-        var sw = await switchRepository.GetSwitchById(switchId);
+        var sw = await uow.SwitchRepository.GetSwitchById(switchId);
 
         if (sw is null)
         {
-            return Result.NotFound("Không tìm thấy công tác");
+            return Result.NotFound("Không tìm thấy công tắc");
         }
 
-        return Result.Success(sw, "Lấy dữ liệu công tác thành công");
+        return Result.Success(sw, "Lấy dữ liệu công tắc thành công");
     }
 }

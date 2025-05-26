@@ -1,3 +1,4 @@
+using Domain.Entities;
 using Domain.Responses.Keyboards;
 
 namespace Domain.Repositories.Interfaces;
@@ -12,4 +13,8 @@ public interface IKeyboardRepository
         bool status = true
     );
     Task<GetKeyboardsResponse?> GetKeyboardById(Guid keyboardId);
+    Task<Keyboard?> GetRawKeyboardById(Guid keyboardId);
+
+    Task Add(Keyboard keyboard);
+    Task<bool> Remove(Guid keyboardId);
 }

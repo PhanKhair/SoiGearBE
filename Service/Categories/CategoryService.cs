@@ -4,7 +4,7 @@ using Domain.Responses.Categories;
 
 namespace Service.Categories;
 
-public class CategoryService(ICategoryRepository categoryRepository) : ICategoryService
+public class CategoryService(IUnitOfWork uow) : ICategoryService
 {
     public async Task<Result<IEnumerable<GetCategoriesResponse>>> GetCategories(
         int pageNumber = 1,
@@ -12,7 +12,7 @@ public class CategoryService(ICategoryRepository categoryRepository) : ICategory
         string search = ""
     )
     {
-        IEnumerable<GetCategoriesResponse> keyboards = await categoryRepository.GetCategories(
+        IEnumerable<GetCategoriesResponse> keyboards = await uow.CategoryRepository.GetCategories(
             pageNumber,
             pageSize,
             search
@@ -27,7 +27,7 @@ public class CategoryService(ICategoryRepository categoryRepository) : ICategory
 
     public async Task<Result<GetCategoriesResponse>> GetCategoryById(Guid categoryId)
     {
-        var category = await categoryRepository.GetCategoryById(categoryId);
+        var category = await uow.CategoryRepository.GetCategoryById(categoryId);
 
         if (category is null)
         {

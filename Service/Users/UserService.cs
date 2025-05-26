@@ -4,7 +4,7 @@ using Domain.Responses.Users;
 
 namespace Service.Users;
 
-public class UserService(IUserRepository userRepository) : IUserService
+public class UserService(IUnitOfWork uow) : IUserService
 {
     public async Task<Result<IEnumerable<GetUsersResponse>>> GetUsers(
         int pageNumber = 1,
@@ -15,7 +15,7 @@ public class UserService(IUserRepository userRepository) : IUserService
         bool status = true
     )
     {
-        IEnumerable<GetUsersResponse> users = await userRepository.GetUsers(
+        IEnumerable<GetUsersResponse> users = await uow.UserRepository.GetUsers(
             pageNumber,
             pageSize,
             search,
@@ -34,7 +34,7 @@ public class UserService(IUserRepository userRepository) : IUserService
     public async Task<Result<GetUsersResponse>> GetUserById(Guid userId)
     {
         // Gọi repository bất đồng bộ
-        var user = await userRepository.GetUserById(userId);
+        var user = await uow.UserRepository.GetUserById(userId);
 
         if (user is null)
         {

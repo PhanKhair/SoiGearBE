@@ -21,17 +21,12 @@ builder.Services.AddDbContext<AppDbContext>(option =>
     option.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
 });
 
-builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
-
-builder.Services.AddScoped<IKeyboardRepository, KeyboardRepository>();
 builder.Services.AddScoped<IKeyboardService, KeyboardService>();
-
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
-
-builder.Services.AddScoped<ISwitchRepository, SwitchRepository>();
 builder.Services.AddScoped<ISwitchService, SwitchService>();
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddCarter();
 

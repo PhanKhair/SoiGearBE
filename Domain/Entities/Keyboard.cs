@@ -9,7 +9,7 @@ public class Keyboard : BaseEntity
     public required string Name { get; set; }
     public required string Description { get; set; }
     public required decimal Price { get; set; }
-    public required decimal Discount { get; set; }
+    public decimal Discount { get; set; }
     public string[] Images { get; set; } = [];
     public bool Status { get; set; } = false;
 
